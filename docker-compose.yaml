@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  streamer:
+      build: ./
+      entrypoint: ['node','app.js']
+      environment: 
+        - YOUTUBE_URL=${YOUTUBE_URL}
+        - SECONDS_TO_WAIT_EACH_VIDEOS=${SECONDS_TO_WAIT_EACH_VIDEOS}
+        - ENV=${ENV}
+      deploy:
+        replicas: 1
+        resources:
+          limits:
+            cpus: '0.25'
+            memory: 256M
