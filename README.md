@@ -1,6 +1,11 @@
 # youtube-auto-stream
 ## Stream YouTube automatically
 
+## Contributors 
+- Puppeteer set of direction - https://github.com/thihakyaw
+- Dockerizing - https://github.com/winhtaikaung
+
+
 ကျွန်တော်တို့ကြိုက်တဲ့ Twice တို့ Blackpink တို့ကိုသေသေချာချာ view count တတ်ချင်ပါသလား။
 
 ဒီဟာက ဗီဒီယိုက auto ဖွင့်ထားတယ်ဆိုပေမဲ့ browser နဲ့သေချာပေါ်လာပြီး stream တာမို့လို့ view count သေချာတက်ပါတယ်။
