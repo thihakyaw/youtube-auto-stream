@@ -1,34 +1,58 @@
 const puppeteer = require('puppeteer');
-require("dotenv").config();
+try {
+  require("dotenv").config();
+} catch {
+  console.error('dotenv is not required for container')
+}
+let opts = {
+  defaultViewport: null,
+  headless: false,
+  args: [
+    "--start--fullscreen",
+  ]
+}
+if (process.env.ENV === 'docker') {
+  opts = {
+    headless: true,
+    defaultViewport: null,
+    args: [
+      "--no-sandbox",
+      "--start--fullscreen"
+    ]
+  }
+}
 
 (async () => {
 
-const x = 1000;
+  const x = 1000;
 
-for(i=0;i<=x;i++){
+  for (i = 0; i <= x; i++) {
     function delay(time) {
-        return new Promise(function(resolve) { 
-            setTimeout(resolve, time)
-        });
-     }
-         
-     const browser = await puppeteer.launch({
-       defaultViewport: { width: 1920, height: 1080 },
-       headless: false
-     });
+      return new Promise(function (resolve) {
+        setTimeout(resolve, time)
+      });
+    }
+    
+    const browser = await puppeteer.launch(opts);
+    if (process.env.ENV === 'docker') {
+      console.log(`View ${i} launched`)
+    }
+    const page = await browser.newPage();
 
-     const page = await browser.newPage();
-     
-     await page.goto(process.env.YOUTUBE_URL);
-     
-     page.keyboard.press('Space');
+    await page.setDefaultNavigationTimeout(0);
 
-     await delay(process.env.SECONDS_TO_WAIT_EACH_VIDEOS*1000);
+    await page.goto(process.env.YOUTUBE_URL);
 
-     await page.screenshot({ path: 'check_finish_or_not'+i.toString()+'.png' });
-   
-     await browser.close();
-}
+    page.keyboard.press('Space');
+
+    await delay(process.env.SECONDS_TO_WAIT_EACH_VIDEOS * 1000);
+
+    await page.screenshot({ path: 'check_finish_or_not' + i.toString() + '.png' });
+    if (process.env.ENV === 'docker') {
+      console.log(`View ${i} completed`)
+    }
+    await browser.close();
+  }
 
 })();
-      
+
